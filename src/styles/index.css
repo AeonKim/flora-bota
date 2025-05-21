@@ -1,0 +1,228 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 글로벌 스타일 */
+@layer base {
+  body {
+    @apply font-montserrat text-charcoal bg-cream;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-lora;
+  }
+  
+  /* 기본 링크 스타일 */
+  a {
+    @apply transition-colors duration-300;
+  }
+  
+  /* 개선된 애니메이션 */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  @keyframes simpleGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  @keyframes floatIn {
+    0% { transform: translateY(-10px); }
+    50% { transform: translateY(5px); }
+    100% { transform: translateY(-10px); }
+  }
+  
+  @keyframes subtlePulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+  }
+  
+  @keyframes gentleSway {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(0.5deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-0.5deg); }
+    100% { transform: rotate(0deg); }
+  }
+  
+  @keyframes shimmer {
+    0% { background-position: -100% 0; }
+    100% { background-position: 200% 0; }
+  }
+}
+
+/* 커스텀 컴포넌트 클래스 */
+@layer components {
+  /* 반응형 컨테이너 */
+  .container-custom {
+    @apply w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-12;
+    max-width: 1280px;
+  }
+  
+  /* 개선된 버튼 스타일 */
+  .btn-primary {
+    @apply bg-sage text-white px-6 py-3 rounded-full font-medium shadow-button 
+           hover:bg-sage-light transition-all duration-300 hover:shadow-hover 
+           focus:outline-none inline-flex items-center justify-center;
+  }
+  
+  .btn-secondary {
+    @apply border-2 border-sage text-sage px-6 py-3 rounded-full font-medium bg-white/90
+           hover:bg-sage-lightest transition-all duration-300 shadow-button hover:shadow-hover
+           focus:outline-none inline-flex items-center justify-center;
+  }
+  
+  .btn-tertiary {
+    @apply text-sage-light hover:text-sage font-medium inline-flex items-center gap-2
+           transition-all duration-300 hover:gap-3;
+  }
+  
+  /* 카드 스타일 */
+  .card {
+    @apply bg-white rounded-xl shadow-elegant overflow-hidden 
+           transition-all duration-400 hover:shadow-card;
+  }
+  
+  .card-highlight {
+    @apply bg-white rounded-xl shadow-card overflow-hidden 
+           transition-all duration-400 hover:shadow-hover border-b-4 border-sage-lighter;
+  }
+  
+  /* 섹션 제목 스타일 */
+  .section-title {
+    @apply text-3xl md:text-4xl font-lora text-center text-charcoal mb-10 font-medium;
+    position: relative;
+  }
+  
+  .section-title:after {
+    content: "";
+    @apply h-1 w-16 bg-sage-light rounded-full absolute left-1/2 -translate-x-1/2 -bottom-3;
+  }
+  
+  /* 섹션 헤더 스타일 */
+  .section-header {
+    @apply text-3xl md:text-4xl font-lora text-charcoal mb-10 font-medium;
+  }
+  
+  /* 이미지 스타일 */
+  .img-frame {
+    @apply rounded-lg overflow-hidden shadow-elegant;
+  }
+  
+  /* 텍스트 스타일 */
+  .text-elegant {
+    @apply font-lora text-charcoal;
+  }
+  
+  .paragraph {
+    @apply text-charcoal-light leading-relaxed mb-6;
+  }
+  
+  /* 입력 필드 스타일 */
+  .input-elegant {
+    @apply w-full px-4 py-3 rounded-lg border-2 border-gray-200 
+           focus:border-sage-light focus:ring-2 focus:ring-sage-lightest 
+           focus:outline-none transition-all duration-300;
+  }
+  
+  /* 그리드 레이아웃 */
+  .grid-gallery {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8;
+  }
+}
+
+/* 커스텀 유틸리티 클래스 */
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  }
+  
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  }
+  
+  .blend-overlay {
+    mix-blend-mode: overlay;
+  }
+  
+  .blend-soft-light {
+    mix-blend-mode: soft-light;
+  }
+  
+  .blend-luminosity {
+    mix-blend-mode: luminosity;
+  }
+  
+  .blend-screen {
+    mix-blend-mode: screen;
+  }
+  
+  .prose-custom {
+    @apply prose prose-lg max-w-none prose-headings:text-charcoal prose-headings:font-lora
+             prose-p:text-charcoal-light prose-a:text-sage hover:prose-a:text-sage-light
+             prose-img:rounded-lg prose-img:shadow-elegant;
+  }
+  
+  .fade-in {
+    animation: fadeIn 0.6s ease-in-out;
+  }
+  
+  .slide-up {
+    animation: slideUp 0.8s ease-out;
+  }
+  
+  .shimmer-effect {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite;
+  }
+  
+  .hover-lift {
+    @apply transition-transform duration-300;
+    position: relative;
+    will-change: transform;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-5px);
+  }
+  
+  .hover-lift:active {
+    transform: translateY(0);
+  }
+  
+  .hover-scale {
+    @apply transition-transform duration-400;
+  }
+  
+  .hover-scale:hover {
+    transform: scale(1.03);
+  }
+  
+  /* 디자인 요소 */
+  .elegant-divider {
+    @apply h-px bg-gradient-to-r from-transparent via-sage-lighter to-transparent my-12;
+  }
+  
+  .subtle-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%237d9d74' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+  }
+  
+  .leaf-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%237d9d74' fill-opacity='0.03'%3E%3Cpath d='M0 0h40v40H0V0zm40 40h40v40H40V40zm0-40h2l-2 2V0zm0 4l4-4h2l-6 6V4zm0 4l8-8h2L40 10V8zm0 4L52 0h2L40 14v-2zm0 4L56 0h2L40 18v-2zm0 4L60 0h2L40 22v-2zm0 4L64 0h2L40 26v-2zm0 4L68 0h2L40 30v-2zm0 4L72 0h2L40 34v-2zm0 4L76 0h2L40 38v-2zm0 4L80 0v2L42 40h-2zm4 0L80 4v2L46 40h-2zm4 0L80 8v2L50 40h-2zm4 0l28-28v2L54 40h-2zm4 0l24-24v2L58 40h-2zm4 0l20-20v2L62 40h-2zm4 0l16-16v2L66 40h-2zm4 0l12-12v2L70 40h-2zm4 0l8-8v2l-6 6h-2zm4 0l4-4v2l-2 2h-2z'/%3E%3C/g%3E%3C/svg%3E");
+  }
+} 
