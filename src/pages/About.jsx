@@ -117,28 +117,15 @@ function About() {
               <p className="mb-6 leading-relaxed" data-aos="fade-up" data-aos-delay="300">
                 특히 식물 관찰법, 색 혼합 기법, 식물의 구조적 이해와 같은 보태니컬 아트의 핵심 요소들을 쉽고 체계적으로 전달하는 교육 방법론을 개발하여 많은 학생들로부터 호평을 받고 있습니다.
               </p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
-                <div className="rounded-lg overflow-hidden shadow-sm" data-aos="zoom-in" data-aos-delay="150">
-                  <img 
-                    src="/assets/images/artist-work1.jpg" // 실제 이미지 경로로 대체 필요
-                    alt="작업 중인 Flora Kim 아티스트"
-                    className="w-full h-auto"
-                  />
-                </div>
-                <div className="rounded-lg overflow-hidden shadow-sm" data-aos="zoom-in" data-aos-delay="300">
-                  <img 
-                    src="/assets/images/artist-work2.jpg" // 실제 이미지 경로로 대체 필요
-                    alt="필드 스케치 중인 Flora Kim 아티스트"
-                    className="w-full h-auto"
-                  />
-                </div>
-              </div>
-              
+                           
               <p className="mb-6 leading-relaxed" data-aos="fade-up" data-aos-delay="350">
                 Flora Kim은 앞으로도 한국의 토착 식물과 멸종 위기 식물들을 기록하는 작업을 계속하며, 특히 계절에 따른 식물의 변화를 담는 장기 프로젝트에 집중할 계획입니다. 또한 디지털 매체를 활용한 보태니컬 아트의 새로운 가능성을 모색하고, 환경 보존 단체들과의 협업을 통해
                 예술이 환경 보호에 기여할 수 있는 방안을 모색하고 있습니다.
               </p>
+
+              <blockquote className="border-l-4 border-sage pl-4 py-2 italic text-gray-700 my-8" data-aos="fade-up" data-aos-delay="200">
+                "자연을 그린다는 것은 시간의 흐름 속에서 영원을 포착하려는 시도입니다. 꽃잎 하나하나에 담긴 우주의 질서를 발견할 때, 우리는 비로소 인간이 자연의 일부라는 진실과 마주하게 됩니다."
+              </blockquote>
               
               <p className="mb-6 leading-relaxed" data-aos="fade-up" data-aos-delay="400">
                 예술과 과학, 전통과 현대, 아름다움과 정확성 사이의 균형을 찾아가는 Flora Kim의 작품 세계는 앞으로도 계속 발전할 것입니다.
