@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import emailjs from '@emailjs/browser'; // 현재는 데모 모드로 작동
+import emailjs from 'emailjs-com';
 
 // Contact 컴포넌트: 아티스트에게 연락하고 문의할 수 있는 페이지
 function Contact() {
@@ -29,7 +29,7 @@ function Contact() {
     }));
   };
   
-  // 폼 제출 처리 - 실제 이메일 전송 기능 추가
+  // 폼 제출 처리 - 실제 이메일 전송 기능
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -65,26 +65,58 @@ function Contact() {
     });
     
     try {
-      // 현재는 데모용으로 setTimeout을 사용하여 이메일 전송 시뮬레이션
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // EmailJS 서비스 설정
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_your_service_id';
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_your_template_id';
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'your_public_key';
       
-      // 성공 메시지 표시
-      setFormStatus({
-        submitted: true,
-        error: false,
-        message: `안녕하세요 ${formData.name}님! Flora Bota에게 메시지가 성공적으로 전달되었습니다. 입력해주신 이메일 주소(${formData.email})로 곧 답변이 도착할 예정입니다. 소중한 문의를 주셔서 감사합니다.`,
-        isLoading: false
-      });
+      // 실제 EmailJS 설정이 있는지 확인
+      const isEmailJSConfigured = serviceId !== 'service_your_service_id' && 
+                                  templateId !== 'template_your_template_id' && 
+                                  publicKey !== 'your_public_key';
       
-      // 폼 초기화
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-        interest: 'general'
-      });
-      
+      if (isEmailJSConfigured) {
+        // 실제 이메일 전송
+        const templateParams = {
+          from_name: formData.name,
+          from_email: formData.email,
+          to_email: 'hust1901@gmail.com',
+          subject: formData.subject || `${formData.interest} 문의`,
+          message: formData.message,
+          interest: formData.interest,
+          reply_to: formData.email
+        };
+        
+        const result = await emailjs.send(
+          serviceId,
+          templateId,
+          templateParams,
+          publicKey
+        );
+        console.log('이메일 전송 성공:', result.text);
+        
+        // 성공 메시지 표시
+        setFormStatus({
+          submitted: true,
+          error: false,
+          message: `안녕하세요 ${formData.name}님! Flora Bota에게 메시지가 성공적으로 전달되었습니다. 입력해주신 이메일 주소(${formData.email})로 곧 답변이 도착할 예정입니다. 소중한 문의를 주셔서 감사합니다.`,
+          isLoading: false
+        });
+        
+        // 폼 초기화
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+          interest: 'general'
+        });
+      } else {
+        // 데모 모드 - 2초 지연 후 성공 처리
+        console.log('데모 모드: EmailJS 설정이 없어 실제 이메일은 전송되지 않습니다.');
+        console.log('전송될 데이터:', templateParams);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
     } catch (error) {
       console.error('이메일 전송 실패:', error);
       setFormStatus({
