@@ -70,6 +70,16 @@ function Contact() {
       const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_your_template_id';
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'your_public_key';
       
+      // 디버깅용 로그 (실제 키 값은 숨김)
+      console.log('환경 변수 확인:', {
+        serviceId: serviceId.substring(0, 8) + '...',
+        templateId: templateId.substring(0, 9) + '...',
+        publicKey: publicKey.substring(0, 4) + '...',
+        hasServiceId: !!import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        hasTemplateId: !!import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        hasPublicKey: !!import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      });
+      
       // 실제 EmailJS 설정이 있는지 확인
       const isEmailJSConfigured = serviceId !== 'service_your_service_id' && 
                                   templateId !== 'template_your_template_id' && 
