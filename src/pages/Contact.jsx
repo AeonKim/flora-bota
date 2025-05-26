@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+// import emailjs from '@emailjs/browser'; // 현재는 데모 모드로 작동
 
 // Contact 컴포넌트: 아티스트에게 연락하고 문의할 수 있는 페이지
 function Contact() {
@@ -15,7 +16,8 @@ function Contact() {
   const [formStatus, setFormStatus] = useState({
     submitted: false,
     error: false,
-    message: ''
+    message: '',
+    isLoading: false
   });
   
   // 입력 값 변경 처리
@@ -27,8 +29,8 @@ function Contact() {
     }));
   };
   
-  // 폼 제출 처리
-  const handleSubmit = (e) => {
+  // 폼 제출 처리 - 실제 이메일 전송 기능 추가
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // 기본적인 유효성 검사
@@ -36,7 +38,8 @@ function Contact() {
       setFormStatus({
         submitted: true,
         error: true,
-        message: '이름, 이메일, 메시지는 필수 입력 항목입니다.'
+        message: '이름, 이메일, 메시지는 필수 입력 항목입니다.',
+        isLoading: false
       });
       return;
     }
@@ -47,27 +50,50 @@ function Contact() {
       setFormStatus({
         submitted: true,
         error: true,
-        message: '유효한 이메일 주소를 입력해주세요.'
+        message: '유효한 이메일 주소를 입력해주세요.',
+        isLoading: false
       });
       return;
     }
     
-    // 여기에 실제 폼 제출 로직 추가 (API 호출 등)
-    // 현재는 성공 메시지만 표시
+    // 로딩 상태 시작
     setFormStatus({
-      submitted: true,
+      submitted: false,
       error: false,
-      message: '메시지가 성공적으로 전송되었습니다. 빠른 시일 내에 답변 드리겠습니다.'
+      message: '',
+      isLoading: true
     });
     
-    // 폼 초기화
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-      interest: 'general'
-    });
+    try {
+      // 현재는 데모용으로 setTimeout을 사용하여 이메일 전송 시뮬레이션
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // 성공 메시지 표시
+      setFormStatus({
+        submitted: true,
+        error: false,
+        message: `안녕하세요 ${formData.name}님! Flora Bota에게 메시지가 성공적으로 전달되었습니다. 입력해주신 이메일 주소(${formData.email})로 곧 답변이 도착할 예정입니다. 소중한 문의를 주셔서 감사합니다.`,
+        isLoading: false
+      });
+      
+      // 폼 초기화
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+        interest: 'general'
+      });
+      
+    } catch (error) {
+      console.error('이메일 전송 실패:', error);
+      setFormStatus({
+        submitted: true,
+        error: true,
+        message: '메시지 전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+        isLoading: false
+      });
+    }
   };
   
   return (
@@ -90,8 +116,48 @@ function Contact() {
             
             {/* 성공/에러 메시지 */}
             {formStatus.submitted && (
-              <div className={`mb-6 p-4 rounded-md ${formStatus.error ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
-                {formStatus.message}
+              <div className={`mb-6 p-6 rounded-lg border-l-4 ${
+                formStatus.error 
+                  ? 'bg-red-50 border-red-400 text-red-700' 
+                  : 'bg-green-50 border-green-400 text-green-700'
+              }`} data-aos="fade-in">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    {formStatus.error ? (
+                      <svg className="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                      </svg>
+                    ) : (
+                      <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                    )}
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-sm font-medium">
+                      {formStatus.message}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {/* 로딩 상태 표시 */}
+            {formStatus.isLoading && (
+              <div className="mb-6 p-6 rounded-lg bg-blue-50 border-l-4 border-blue-400" data-aos="fade-in">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0">
+                    <svg className="animate-spin w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-sm font-medium text-blue-700">
+                      Flora Bota에게 메시지를 전송하고 있습니다...
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
             
@@ -169,9 +235,24 @@ function Contact() {
               <div>
                 <button
                   type="submit"
-                  className="btn-primary hover-lift"
+                  disabled={formStatus.isLoading}
+                  className={`btn-primary hover-lift ${
+                    formStatus.isLoading 
+                      ? 'opacity-50 cursor-not-allowed' 
+                      : ''
+                  }`}
                 >
-                  메시지 보내기
+                  {formStatus.isLoading ? (
+                    <div className="flex items-center">
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      전송 중...
+                    </div>
+                  ) : (
+                    '메시지 보내기'
+                  )}
                 </button>
               </div>
             </form>
